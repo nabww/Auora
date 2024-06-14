@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import FormFIeld from "../components/FormFIeld";
 import CustomButton from "../components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { createUser } from "../../lib/appwrite";
 
 const SignUp = () => {
@@ -23,7 +23,7 @@ const SignUp = () => {
     setIsSubmiting(true);
     // createUser();
     try {
-      const result = await createUser(form.username, form.email, form.password);
+      const result = await createUser(form.email, form.password, form.username);
 
       //set it to global state using context
 

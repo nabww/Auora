@@ -1,11 +1,13 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import FormFIeld from "../components/FormFIeld";
 import CustomButton from "../components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { signIn, revokeAllSessions } from "../../lib/appwrite";
 
+//sign in function
 const SignIn = () => {
   const [form, setForm] = useState({
     email: "",
@@ -14,7 +16,44 @@ const SignIn = () => {
 
   const [IsSubmiting, setIsSubmiting] = useState(false);
 
-  const submit = () => {};
+  // const submit = async () => {
+  //   if (!form.email || !form.password) {
+  //     Alert.alert("Error", "Please fill in all required fields");
+  //   }
+  //   setIsSubmiting(true);
+  //   // createUser();
+  //   try {
+  //     const result = await signIn(form.email, form.password);
+
+  //     //set it to global state using context
+
+  //     router.replace("/home");
+  //   } catch (error) {
+  //     Alert.alert("Error", error.message);
+  //   } finally {
+  //     setIsSubmiting(false);
+  //   }
+  // };
+
+  const submit = async () => {
+    try {
+      // Check if email and password are provided
+      if (!form.email || !form.password) {
+        throw new Error("Please fill in all required fields");
+      }
+      setIsSubmiting(true);
+      // Revoke all active sessions
+      // await revokeAllSessions();
+      const result = await signIn(form.email, form.password);
+      router.replace("/home");
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    } finally {
+      // Whether successful or not, reset the submit state
+      setIsSubmiting(false);
+    }
+  };
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
