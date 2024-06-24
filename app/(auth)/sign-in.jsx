@@ -43,7 +43,7 @@ const SignIn = () => {
       }
       setIsSubmiting(true);
       // Revoke all active sessions
-      // await revokeAllSessions();
+      await revokeAllSessions();
       const result = await signIn(form.email, form.password);
       router.replace("/home");
     } catch (error) {
